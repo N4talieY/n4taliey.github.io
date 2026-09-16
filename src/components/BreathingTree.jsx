@@ -4,7 +4,7 @@ import "../styles/BreathingTree.css";
 const TAU = Math.PI * 2;
 const ROOT = { x: 50, y: 90 };
 const MAX_SPROUTS = 44;
-const INITIAL_SPROUT_COUNT = 20;
+const INITIAL_SPROUT_COUNT = 17;
 const CANVAS_PADDING_X = 6;
 const CANVAS_PADDING_Y = 5;
 const MAX_DEVICE_PIXEL_RATIO = 1.5;
@@ -72,6 +72,8 @@ const currentSegment = (segment, time) => ({
   end: animatedPoint(segment.end, time),
 });
 
+const REST_TREE = TREE.map((segment) => currentSegment(segment, 0));
+
 const projectOntoSegment = (point, segment) => {
   const dx = segment.end.x - segment.start.x;
   const dy = segment.end.y - segment.start.y;
@@ -93,15 +95,18 @@ const findBranch = (point, time) => {
 };
 
 const makeInitialSprouts = () => {
+  const random = randomFrom(81357);
   const candidates = [];
   TREE.filter((segment) => segment.depth >= 2).forEach((segment) => {
-    const animated = currentSegment(segment, 0);
-    [0.34, 0.62, 0.9].forEach((t) => {
+    const resting = REST_TREE[segment.id];
+    [0.34, 0.62, 0.9].forEach((position) => {
+      const t = clamp(position + (random() - 0.5) * 0.18, 0.18, 0.94);
       candidates.push({
         segment,
         t,
-        x: animated.start.x + (animated.end.x - animated.start.x) * t,
-        y: animated.start.y + (animated.end.y - animated.start.y) * t,
+        x: resting.start.x + (resting.end.x - resting.start.x) * t,
+        y: resting.start.y + (resting.end.y - resting.start.y) * t,
+        bias: (random() - 0.5) * 2.4,
       });
     });
   });
@@ -114,15 +119,15 @@ const makeInitialSprouts = () => {
       const distance = selected.length
         ? Math.min(...selected.map((item) => Math.hypot(candidate.x - item.x, candidate.y - item.y)))
         : Math.hypot(candidate.x - ROOT.x, candidate.y - (ROOT.y - 35));
-      if (distance > bestDistance) {
-        bestDistance = distance;
+      const score = distance + candidate.bias;
+      if (score > bestDistance) {
+        bestDistance = score;
         bestIndex = index;
       }
     });
     selected.push(candidates.splice(bestIndex, 1)[0]);
   }
 
-  const random = randomFrom(81357);
   return selected.map((candidate, id) => ({
     id,
     segmentId: candidate.segment.id,
@@ -213,8 +218,14 @@ const BreathingTree = () => {
       const flowerProgress = easeOut(clamp((progress - 0.58) / 0.42, 0, 1));
       const baseX = segment.start.x + (segment.end.x - segment.start.x) * sprout.t;
       const baseY = segment.start.y + (segment.end.y - segment.start.y) * sprout.t;
-      const outward = clamp((baseX - ROOT.x) / 34, -1, 1);
-      const angle = -Math.PI / 2 + outward * 0.52 + Math.sin(time / 1500 + sprout.phase) * 0.045;
+      const resting = REST_TREE[sprout.segmentId];
+      const restingX = resting.start.x + (resting.end.x - resting.start.x) * sprout.t;
+      const outward = clamp((restingX - ROOT.x) / 34, -1, 1);
+      const branchLean = Math.atan2(resting.end.x - resting.start.x, resting.start.y - resting.end.y);
+      const naturalLean = outward * 0.36 + branchLean * 0.36 + Math.sin(sprout.phase * 1.73) * 0.16;
+      const leanDirection = Math.sign(naturalLean) || (sprout.id % 2 ? 1 : -1);
+      const lean = leanDirection * clamp(Math.abs(naturalLean), 0.16, 0.82);
+      const angle = -Math.PI / 2 + lean + Math.sin(time / 1500 + sprout.phase) * 0.045;
       const life = 1 + Math.sin(time / 920 + sprout.phase) * 0.055;
       const tipX = baseX + Math.cos(angle) * sprout.length * life * stemProgress;
       const tipY = baseY + Math.sin(angle) * sprout.length * life * stemProgress;

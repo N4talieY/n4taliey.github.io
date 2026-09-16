@@ -47,7 +47,7 @@ const Research = () => {
       title: "Multimodal stress monitoring based on EDA and EEG signal analysis in a VR environment",
       role: "Researcher",
       supervisor: "Prof. Yue Li",
-      date: "2025.06 - Present",
+      date: "2025.06 - 2026.06",
       bullets: [
         "Designed a multimodal stress-detection framework integrating Shimmer3 EDA and Muse2 EEG signals in VR",
         "Developed Unity tasks with pointing, grabbing, movement, dynamic objects, cognitive load, and time pressure",

@@ -47,6 +47,15 @@
     outline-offset: 2px;
   }
 
+  @media only screen and (max-width: 991.98px) {
+    .navbar-nav .theme-toggle {
+      align-self: flex-start;
+      width: fit-content;
+      padding: 0;
+      justify-content: flex-start;
+    }
+  }
+
   @media only screen and (max-width: 800px) {
     .navbar-brand  {
         display: none;

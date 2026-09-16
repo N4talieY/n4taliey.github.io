@@ -12,9 +12,8 @@ const SidebarNav = () => {
     <a key="2" href="/#about"><span className="nav-slash">/</span>about</a>,
     <a key="3" href="/#experience"><span className="nav-slash">/</span>experience</a>,
     <a key="4" href="/#research"><span className="nav-slash">/</span>research</a>,
-    <a key="5" href="/#publications"><span className="nav-slash">/</span>publications</a>,
-    <a key="6" href="/#projects"><span className="nav-slash">/</span>projects</a>,
-    <a key="7" href="/Xinyi_Yang_CV.pdf" download><span className="nav-slash">/</span>cv</a>
+    <a key="5" href="/#projects"><span className="nav-slash">/</span>projects</a>,
+    <a key="6" href="/Xinyi_Yang_CV.pdf" download><span className="nav-slash">/</span>cv</a>
   ];
 
   return (

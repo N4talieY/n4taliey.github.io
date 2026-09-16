@@ -3,7 +3,6 @@ import Intro from "./components/Intro";
 import Experience from "./components/Experience";
 import About from "./components/About";
 import Research from "./components/Research";
-import Publications from "./components/Publications";
 import SelectedProjects from "./components/SelectedProjects";
 import NavBar from "./components/NavBar";
 import SidebarNav from "./components/SidebarNav";
@@ -50,7 +49,6 @@ function App() {
                 <About />
                 <Experience />
                 <Research />
-                <Publications />
                 <SelectedProjects />
               </>
             }

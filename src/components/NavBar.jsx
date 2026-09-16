@@ -47,7 +47,6 @@ const NavBar = ({ theme, onThemeToggle }) => {
             <Nav.Link href="/#about">About</Nav.Link>
             <Nav.Link href="/#experience">Experience</Nav.Link>
             <Nav.Link href="/#research">Research</Nav.Link>
-            <Nav.Link href="/#publications">Publications</Nav.Link>
             <Nav.Link href="/#projects">Projects</Nav.Link>
             <Nav.Link href="/Xinyi_Yang_CV.pdf" download aria-label="Download CV" title="Download CV">CV</Nav.Link>
           </Nav>
