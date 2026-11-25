@@ -14,8 +14,9 @@ const About = () => {
           <div className="about-description">
             <p>
               Hi — I'm <b>Xinyi Yang</b>. I have completed a BSc in Information
-              and Computing Science at Xi'an Jiaotong-Liverpool University. In January 2027, I will begin an MS in
-              Electrical and Computer Engineering at Carnegie Mellon University.
+              and Computing Science at Xi'an Jiaotong-Liverpool University.
+              {/*In January 2027, I will begin an MS in*/}
+              {/*Electrical and Computer Engineering at Carnegie Mellon University.*/}
             </p>
             <p>
               My experience spans LLM application engineering, AI product
